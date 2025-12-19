@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>福井総合病院　打刻</title>
+<title>出退勤 打刻</title>
 
 <!-- iPad 全画面 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -23,7 +23,7 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: calc(100% - 120px); /* 修正 */
+  height: calc(100% - 150px);
 }
 
 .section {
@@ -32,9 +32,56 @@ html, body {
   box-sizing: border-box;
 }
 
+h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* 左：テンキー */
+#empInput {
+  width: 100%;
+  height: 70px;
+  font-size: 36px;
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.keypad button {
+  height: 80px;
+  font-size: 32px;
+  border-radius: 12px;
+  border: none;
+}
+
+.key { background: #333; color: #fff; }
+.clear { background: #c0392b; color: #fff; }
+
+/* 右：QR */
+#reader {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+}
+
+.qr-emp {
+  text-align: center;
+  font-size: 26px;
+  margin-top: 10px;
+}
+
+/* 共通ボタン */
 .footer {
-  height: 120px; /* 修正 */
-  padding: 10px 15px;
+  height: 150px;
+  padding: 15px;
   box-sizing: border-box;
 }
 
@@ -45,8 +92,8 @@ html, body {
 
 .buttons button {
   flex: 1;
-  height: 90px;      /* 修正 */
-  font-size: 32px;   /* 修正 */
+  height: 110px;
+  font-size: 38px;
   border: none;
   border-radius: 20px;
   color: #fff;
@@ -57,8 +104,8 @@ html, body {
 
 #result {
   text-align: center;
-  font-size: 24px;
-  margin-top: 5px;
+  font-size: 26px;
+  margin-top: 10px;
 }
 </style>
 </head>
@@ -69,8 +116,8 @@ html, body {
 
   <!-- 左：テンキー -->
   <div class="section">
-    <h2>職員番号</h2>
-    <input id="empInput" readonly placeholder="職員番号を入力してください">
+    <h2>社員番号入力</h2>
+    <input id="empInput" readonly placeholder="番号を入力">
 
     <div class="keypad">
       <button class="key" onclick="addNum(1)">1</button>
@@ -94,7 +141,7 @@ html, body {
     <div id="reader"></div>
 
     <div class="qr-emp">
-      職員番号：<span id="qrEmp">未読取</span>
+      社員番号：<span id="qrEmp">未読取</span>
     </div>
   </div>
 
@@ -141,7 +188,7 @@ function dakoku(type) {
   const empId = inputEmp || qrEmpId;
 
   if (!empId) {
-    alert("職員番号を入力またはQRを読み取ってください");
+    alert("社員番号を入力またはQRを読み取ってください");
     return;
   }
 
@@ -149,7 +196,7 @@ function dakoku(type) {
   const now = new Date().toLocaleString();
 
   document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>職員番号：${empId}<br>${now}`;
+    `【${type} 完了】<br>社員番号：${empId}<br>${now}`;
 
   setTimeout(() => {
     document.getElementById("empInput").value = "";
@@ -163,4 +210,3 @@ function dakoku(type) {
 
 </body>
 </html>
-
