@@ -195,8 +195,11 @@ function dakoku(type) {
   lock = true;
   const now = new Date().toLocaleString();
 
+/*  document.getElementById("result").innerHTML =
+    `【${type} 完了】<br>職員番号：${empId}<br>${now}`; */
+
   document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>職員番号：${empId}<br>${now}`;
+    `【${type} 完了】 職員番号：${empId} ${now}`;
 
   setTimeout(() => {
     document.getElementById("empInput").value = "";
@@ -210,6 +213,7 @@ function dakoku(type) {
 
 </body>
 </html>
+
 
 
 
