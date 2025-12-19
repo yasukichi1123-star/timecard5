@@ -116,8 +116,8 @@ h2 {
 
   <!-- 左：テンキー -->
   <div class="section">
-    <h2>社員番号入力</h2>
-    <input id="empInput" readonly placeholder="番号を入力">
+    <h2>職員番号</h2>
+    <input id="empInput" readonly placeholder="職員番号を入力してください">
 
     <div class="keypad">
       <button class="key" onclick="addNum(1)">1</button>
@@ -141,7 +141,7 @@ h2 {
     <div id="reader"></div>
 
     <div class="qr-emp">
-      社員番号：<span id="qrEmp">未読取</span>
+      職員番号：<span id="qrEmp">未読取</span>
     </div>
   </div>
 
@@ -188,7 +188,7 @@ function dakoku(type) {
   const empId = inputEmp || qrEmpId;
 
   if (!empId) {
-    alert("社員番号を入力またはQRを読み取ってください");
+    alert("職員番号を入力またはQRを読み取ってください");
     return;
   }
 
@@ -196,7 +196,7 @@ function dakoku(type) {
   const now = new Date().toLocaleString();
 
   document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>社員番号：${empId}<br>${now}`;
+    `【${type} 完了】<br>職員番号：${empId}<br>${now}`;
 
   setTimeout(() => {
     document.getElementById("empInput").value = "";
@@ -210,3 +210,4 @@ function dakoku(type) {
 
 </body>
 </html>
+
