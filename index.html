@@ -23,7 +23,7 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: calc(100% - 150px);
+  height: calc(100% - 120px); /* 修正 */
 }
 
 .section {
@@ -32,56 +32,9 @@ html, body {
   box-sizing: border-box;
 }
 
-h2 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-/* 左：テンキー */
-#empInput {
-  width: 100%;
-  height: 70px;
-  font-size: 36px;
-  text-align: center;
-  border-radius: 10px;
-  border: none;
-  margin-bottom: 10px;
-}
-
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.keypad button {
-  height: 80px;
-  font-size: 32px;
-  border-radius: 12px;
-  border: none;
-}
-
-.key { background: #333; color: #fff; }
-.clear { background: #c0392b; color: #fff; }
-
-/* 右：QR */
-#reader {
-  width: 100%;
-  max-width: 420px;
-  margin: auto;
-}
-
-.qr-emp {
-  text-align: center;
-  font-size: 26px;
-  margin-top: 10px;
-}
-
-/* 共通ボタン */
 .footer {
-  height: 150px;
-  padding: 15px;
+  height: 120px; /* 修正 */
+  padding: 10px 15px;
   box-sizing: border-box;
 }
 
@@ -92,8 +45,8 @@ h2 {
 
 .buttons button {
   flex: 1;
-  height: 110px;
-  font-size: 38px;
+  height: 90px;      /* 修正 */
+  font-size: 32px;   /* 修正 */
   border: none;
   border-radius: 20px;
   color: #fff;
@@ -104,8 +57,8 @@ h2 {
 
 #result {
   text-align: center;
-  font-size: 26px;
-  margin-top: 10px;
+  font-size: 24px;
+  margin-top: 5px;
 }
 </style>
 </head>
@@ -210,3 +163,4 @@ function dakoku(type) {
 
 </body>
 </html>
+
