@@ -23,10 +23,9 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: 100%;
+  height: calc(100% - 150px);
 }
 
-/* 共通 */
 .section {
   width: 50%;
   padding: 20px;
@@ -63,21 +62,8 @@ h2 {
   border: none;
 }
 
-.key {
-  background: #333;
-  color: #fff;
-}
-
-.clear {
-  background: #c0392b;
-  color: #fff;
-}
-
-.enter {
-  background: #16a085;
-  color: #fff;
-  grid-column: span 3;
-}
+.key { background: #333; color: #fff; }
+.clear { background: #c0392b; color: #fff; }
 
 /* 右：QR */
 #reader {
@@ -92,19 +78,24 @@ h2 {
   margin-top: 10px;
 }
 
-/* 打刻ボタン */
+/* 共通ボタン */
+.footer {
+  height: 150px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
 .buttons {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 20px;
 }
 
 .buttons button {
   flex: 1;
-  height: 90px;
-  font-size: 32px;
+  height: 110px;
+  font-size: 38px;
   border: none;
-  border-radius: 15px;
+  border-radius: 20px;
   color: #fff;
 }
 
@@ -113,56 +104,56 @@ h2 {
 
 #result {
   text-align: center;
-  font-size: 24px;
+  font-size: 26px;
   margin-top: 10px;
 }
 </style>
 </head>
 
 <body>
+
 <div class="wrapper">
 
-<!-- 左：テンキー入力 -->
-<div class="section">
-  <h2>社員番号入力</h2>
+  <!-- 左：テンキー -->
+  <div class="section">
+    <h2>職員番号</h2>
+    <input id="empInput" readonly placeholder="職員番号を入力してください">
 
-  <input id="empInput" readonly placeholder="番号を入力">
-
-  <div class="keypad">
-    <button class="key" onclick="addNum(1)">1</button>
-    <button class="key" onclick="addNum(2)">2</button>
-    <button class="key" onclick="addNum(3)">3</button>
-    <button class="key" onclick="addNum(4)">4</button>
-    <button class="key" onclick="addNum(5)">5</button>
-    <button class="key" onclick="addNum(6)">6</button>
-    <button class="key" onclick="addNum(7)">7</button>
-    <button class="key" onclick="addNum(8)">8</button>
-    <button class="key" onclick="addNum(9)">9</button>
-    <button class="key" onclick="addNum(0)">0</button>
-    <button class="clear" onclick="clearNum()">クリア</button>
-    <button class="enter" onclick="dakokuFromInput('出勤')">出 勤</button>
-    <button class="enter" onclick="dakokuFromInput('退勤')">退 勤</button>
+    <div class="keypad">
+      <button class="key" onclick="addNum(1)">1</button>
+      <button class="key" onclick="addNum(2)">2</button>
+      <button class="key" onclick="addNum(3)">3</button>
+      <button class="key" onclick="addNum(4)">4</button>
+      <button class="key" onclick="addNum(5)">5</button>
+      <button class="key" onclick="addNum(6)">6</button>
+      <button class="key" onclick="addNum(7)">7</button>
+      <button class="key" onclick="addNum(8)">8</button>
+      <button class="key" onclick="addNum(9)">9</button>
+      <button class="key" onclick="addNum(0)">0</button>
+      <button class="clear" onclick="clearNum()">クリア</button>
+    </div>
   </div>
+
+  <!-- 右：QR -->
+  <div class="section">
+    <h2>QRコード打刻</h2>
+
+    <div id="reader"></div>
+
+    <div class="qr-emp">
+      職員番号：<span id="qrEmp">未読取</span>
+    </div>
+  </div>
+
 </div>
 
-<!-- 右：QR -->
-<div class="section">
-  <h2>QRコード打刻</h2>
-
-  <div id="reader"></div>
-
-  <div class="qr-emp">
-    職員番号：<span id="qrEmp">未読取</span>
-  </div>
-
+<!-- 共通 出退勤ボタン -->
+<div class="footer">
   <div class="buttons">
-    <button class="in" onclick="dakokuFromQR('出勤')">出 勤</button>
-    <button class="out" onclick="dakokuFromQR('退勤')">退 勤</button>
+    <button class="in" onclick="dakoku('出勤')">出 勤</button>
+    <button class="out" onclick="dakoku('退勤')">退 勤</button>
   </div>
-
   <div id="result"></div>
-</div>
-
 </div>
 
 <script>
@@ -177,35 +168,7 @@ function clearNum() {
   document.getElementById("empInput").value = "";
 }
 
-/* 打刻共通 */
-function record(empId, type) {
-  if (lock) return;
-  if (!empId) {
-    alert("職員番号を入力・読み取りしてください");
-    return;
-  }
-
-  lock = true;
-  const now = new Date().toLocaleString();
-
-  document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>社員番号：${empId}<br>${now}`;
-
-  setTimeout(() => {
-    document.getElementById("empInput").value = "";
-    document.getElementById("qrEmp").innerText = "未読取";
-    document.getElementById("result").innerHTML = "";
-    qrEmpId = "";
-    lock = false;
-  }, 3000);
-}
-
-/* 左 */
-function dakokuFromInput(type) {
-  record(document.getElementById("empInput").value.trim(), type);
-}
-
-/* 右：QR */
+/* QR */
 const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
@@ -217,8 +180,31 @@ qr.start(
   }
 );
 
-function dakokuFromQR(type) {
-  record(qrEmpId, type);
+/* 共通打刻 */
+function dakoku(type) {
+  if (lock) return;
+
+  const inputEmp = document.getElementById("empInput").value.trim();
+  const empId = inputEmp || qrEmpId;
+
+  if (!empId) {
+    alert("職員番号を入力またはQRを読み取ってください");
+    return;
+  }
+
+  lock = true;
+  const now = new Date().toLocaleString();
+
+  document.getElementById("result").innerHTML =
+    `【${type} 完了】<br>職員番号：${empId}<br>${now}`;
+
+  setTimeout(() => {
+    document.getElementById("empInput").value = "";
+    document.getElementById("qrEmp").innerText = "未読取";
+    document.getElementById("result").innerHTML = "";
+    qrEmpId = "";
+    lock = false;
+  }, 3000);
 }
 </script>
 
