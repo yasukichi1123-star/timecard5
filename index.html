@@ -1,65 +1,140 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>QR打刻システム</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>出退勤 打刻</title>
 
-  <!-- QR読取ライブラリ -->
-  <script src="https://unpkg.com/html5-qrcode"></script>
+<!-- iPad全画面設定 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 26px;
-    }
-    #reader {
-      width: 100%;
-      max-width: 400px;
-      margin: auto;
-    }
-    .emp {
-      font-size: 22px;
-      margin: 15px 0;
-    }
-    button {
-      font-size: 24px;
-      width: 45%;
-      height: 80px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      color: white;
-    }
-    .in {
-      background: #28a745;
-    }
-    .out {
-      background: #007bff;
-    }
-    #result {
-      font-size: 18px;
-      margin-top: 15px;
-    }
-  </style>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #111;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  touch-action: manipulation;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 32px;
+  margin: 10px 0;
+}
+
+#reader {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+}
+
+.emp {
+  text-align: center;
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+button {
+  flex: 1;
+  height: 120px;
+  font-size: 36px;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.in {
+  background: #2ecc71;
+}
+
+.out {
+  background: #3498db;
+}
+
+#result {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+</style>
 </head>
 
 <body>
+<div class="container">
 
 <h1>出退勤 打刻</h1>
 
 <div id="reader"></div>
 
 <div class="emp">
-  社員番号：<span id="empId">未読取</span>
+  社員番号：<span id="empId">QRをかざしてください</span>
 </div>
 
-<div>
-  <button class="in" onclick="dakoku('出勤')">出勤</button>
-  <button class="ou
+<div id="result"></div>
+
+<div class="buttons">
+  <button class="in" onclick="dakoku('出勤')">出 勤</button>
+  <button class="out" onclick="dakoku('退勤')">退 勤</button>
+</div>
+
+</div>
+
+<script>
+let currentEmpId = "";
+let lock = false;
+
+const qr = new Html5Qrcode("reader");
+
+qr.start(
+  { facingMode: "environment" },
+  { fps: 10, qrbox: 300 },
+  text => {
+    if (lock) return;
+    currentEmpId = text;
+    document.getElementById("empId").innerText = text;
+  }
+);
+
+function dakoku(type) {
+  if (!currentEmpId || lock) {
+    alert("QRコードを読み取ってください");
+    return;
+  }
+
+  lock = true;
+
+  const now = new Date().toLocaleString();
+  document.getElementById("result").innerHTML =
+    `【${type} 完了】<br>${now}`;
+
+  // 3秒後に自動リセット
+  setTimeout(() => {
+    currentEmpId = "";
+    document.getElementById("empId").innerText = "QRをかざしてください";
+    document.getElementById("result").innerText = "";
+    lock = false;
+  }, 3000);
+}
+</script>
+
+</body>
+</html>
