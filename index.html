@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>福井総合病院　出退勤 打刻</title>
+<title>福井総合病院　打刻</title>
 
-<!-- iPad全画面設定 -->
+<!-- iPad 全画面 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -19,123 +19,208 @@ html, body {
   background: #111;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  touch-action: manipulation;
 }
 
-.container {
-  height: 100%;
+.wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
+}
+
+/* 共通 */
+.section {
+  width: 50%;
   padding: 20px;
+  box-sizing: border-box;
 }
 
-h1 {
-  text-align: center;
-  font-size: 32px;
-  margin: 10px 0;
-}
-
-#reader {
-  width: 100%;
-  max-width: 480px;
-  margin: auto;
-}
-
-.emp {
+h2 {
   text-align: center;
   font-size: 28px;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.buttons {
-  display: flex;
-  gap: 20px;
-}
-
-button {
-  flex: 1;
-  height: 120px;
+/* 左：テンキー */
+#empInput {
+  width: 100%;
+  height: 70px;
   font-size: 36px;
+  text-align: center;
+  border-radius: 10px;
   border: none;
-  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.keypad button {
+  height: 80px;
+  font-size: 32px;
+  border-radius: 12px;
+  border: none;
+}
+
+.key {
+  background: #333;
   color: #fff;
 }
 
-.in {
-  background: #2ecc71;
+.clear {
+  background: #c0392b;
+  color: #fff;
 }
 
-.out {
-  background: #3498db;
+.enter {
+  background: #16a085;
+  color: #fff;
+  grid-column: span 3;
 }
+
+/* 右：QR */
+#reader {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+}
+
+.qr-emp {
+  text-align: center;
+  font-size: 26px;
+  margin-top: 10px;
+}
+
+/* 打刻ボタン */
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.buttons button {
+  flex: 1;
+  height: 90px;
+  font-size: 32px;
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.in { background: #2ecc71; }
+.out { background: #3498db; }
 
 #result {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
+<div class="wrapper">
 
-<h1>出退勤 打刻</h1>
+<!-- 左：テンキー入力 -->
+<div class="section">
+  <h2>社員番号入力</h2>
 
-<div id="reader"></div>
+  <input id="empInput" readonly placeholder="番号を入力">
 
-<div class="emp">
-  社員番号：<span id="empId">QRをかざしてください</span>
+  <div class="keypad">
+    <button class="key" onclick="addNum(1)">1</button>
+    <button class="key" onclick="addNum(2)">2</button>
+    <button class="key" onclick="addNum(3)">3</button>
+    <button class="key" onclick="addNum(4)">4</button>
+    <button class="key" onclick="addNum(5)">5</button>
+    <button class="key" onclick="addNum(6)">6</button>
+    <button class="key" onclick="addNum(7)">7</button>
+    <button class="key" onclick="addNum(8)">8</button>
+    <button class="key" onclick="addNum(9)">9</button>
+    <button class="key" onclick="addNum(0)">0</button>
+    <button class="clear" onclick="clearNum()">クリア</button>
+    <button class="enter" onclick="dakokuFromInput('出勤')">出 勤</button>
+    <button class="enter" onclick="dakokuFromInput('退勤')">退 勤</button>
+  </div>
 </div>
 
-<div id="result"></div>
+<!-- 右：QR -->
+<div class="section">
+  <h2>QRコード打刻</h2>
 
-<div class="buttons">
-  <button class="in" onclick="dakoku('出勤')">出 勤</button>
-  <button class="out" onclick="dakoku('退勤')">退 勤</button>
+  <div id="reader"></div>
+
+  <div class="qr-emp">
+    職員番号：<span id="qrEmp">未読取</span>
+  </div>
+
+  <div class="buttons">
+    <button class="in" onclick="dakokuFromQR('出勤')">出 勤</button>
+    <button class="out" onclick="dakokuFromQR('退勤')">退 勤</button>
+  </div>
+
+  <div id="result"></div>
 </div>
 
 </div>
 
 <script>
-let currentEmpId = "";
 let lock = false;
+let qrEmpId = "";
 
-const qr = new Html5Qrcode("reader");
+/* テンキー */
+function addNum(n) {
+  document.getElementById("empInput").value += n;
+}
+function clearNum() {
+  document.getElementById("empInput").value = "";
+}
 
-qr.start(
-  { facingMode: "environment" },
-  { fps: 10, qrbox: 300 },
-  text => {
-    if (lock) return;
-    currentEmpId = text;
-    document.getElementById("empId").innerText = text;
-  }
-);
-
-function dakoku(type) {
-  if (!currentEmpId || lock) {
-    alert("QRコードを読み取ってください");
+/* 打刻共通 */
+function record(empId, type) {
+  if (lock) return;
+  if (!empId) {
+    alert("職員番号を入力・読み取りしてください");
     return;
   }
 
   lock = true;
-
   const now = new Date().toLocaleString();
-  document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>${now}`;
 
-  // 3秒後に自動リセット
+  document.getElementById("result").innerHTML =
+    `【${type} 完了】<br>社員番号：${empId}<br>${now}`;
+
   setTimeout(() => {
-    currentEmpId = "";
-    document.getElementById("empId").innerText = "QRをかざしてください";
-    document.getElementById("result").innerText = "";
+    document.getElementById("empInput").value = "";
+    document.getElementById("qrEmp").innerText = "未読取";
+    document.getElementById("result").innerHTML = "";
+    qrEmpId = "";
     lock = false;
   }, 3000);
+}
+
+/* 左 */
+function dakokuFromInput(type) {
+  record(document.getElementById("empInput").value.trim(), type);
+}
+
+/* 右：QR */
+const qr = new Html5Qrcode("reader");
+qr.start(
+  { facingMode: "environment" },
+  { fps: 10, qrbox: 250 },
+  text => {
+    if (lock) return;
+    qrEmpId = text;
+    document.getElementById("qrEmp").innerText = text;
+  }
+);
+
+function dakokuFromQR(type) {
+  record(qrEmpId, type);
 }
 </script>
 
 </body>
 </html>
-
