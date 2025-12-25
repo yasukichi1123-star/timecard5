@@ -171,7 +171,8 @@ function clearNum() {
 /* QR */
 const qr = new Html5Qrcode("reader");
 qr.start(
-  { facingMode: "environment" },
+ /* { facingMode: "environment" },*/
+  { facingMode: "user" },
   { fps: 10, qrbox: 250 },
   text => {
     if (lock) return;
@@ -213,3 +214,4 @@ function dakoku(type) {
 
 </body>
 </html>
+
