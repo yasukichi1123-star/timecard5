@@ -28,11 +28,22 @@ html, body {
   left: 0;
   width: 100%;
   text-align: center;
-  background: rgba(0, 128, 0, 0.9); /* 緑系：完了感 */
+  /*background: rgba(0, 128, 0, 0.9);*/ /* 緑系：完了感 */
   color: #fff;
   font-size: 30px;
-  padding: 12px 8px;
+  padding: 14px 10px;
   z-index: 9999;
+  font-weight: 600;
+}
+
+/* 出勤＝緑 */
+.top-in {
+  background: rgba(30, 160, 70, 0.95);
+}
+
+/* 退勤＝青 */
+.top-out {
+  background: rgba(40, 120, 220, 0.95);
 }
   
 /* 上部メイン領域の高さ */
@@ -215,18 +226,29 @@ function dakoku(type) {
 
  const result = document.getElementById("result");
 
-result.className = "top-banner";
+// まずクラスをリセット
+result.className = "";
+
+// 出勤 → 緑、退勤 → 青
+if (type === "出勤") {
+  result.classList.add("top-banner", "top-in");
+} else {
+  result.classList.add("top-banner", "top-out");
+}
+
 result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
   
   setTimeout(() => {
-    document.getElementById("empInput").value = "";
-    document.getElementById("qrEmp").innerText = "未読取";
-    /*document.getElement"result"sult").innerEmpId = "";*/
-    const result = document.getElementById("result");
-    result.innerHTML = "";
-    result.className = ""; 
-    lock = false;
-  }, 1500);
+  document.getElementById("empInput").value = "";
+  document.getElementById("qrEmp").innerText = "未読取";
+
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+  result.className = "";   // ← 色・帯も完全クリア
+
+  qrEmpId = "";
+  lock = false;
+}, 2000);
 }
 </script>
 
