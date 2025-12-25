@@ -221,8 +221,10 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
   setTimeout(() => {
     document.getElementById("empInput").value = "";
     document.getElementById("qrEmp").innerText = "未読取";
-    document.getElementById("result").innerHTML = "";
-    qrEmpId = "";
+    /*document.getElement"result"sult").innerEmpId = "";*/
+    const result = document.getElementById("result");
+    result.innerHTML = "";
+    result.className = ""; 
     lock = false;
   }, 1500);
 }
@@ -230,6 +232,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
