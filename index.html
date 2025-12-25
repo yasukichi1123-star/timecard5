@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>福井総合病院　打刻</title>
 
+<!-- iPad 全画面 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,7 +23,7 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: calc(100% - 120px);
+  height: calc(100% - 100px);
 }
 
 .section {
@@ -77,9 +78,9 @@ h2 {
   margin-top: 10px;
 }
 
-/* フッター */
+/* 共通ボタン */
 .footer {
-  height: 120px;
+  height: 100px;
   padding: 15px;
   box-sizing: border-box;
 }
@@ -89,7 +90,6 @@ h2 {
   gap: 20px;
 }
 
-/* 1ボタン共通 */
 .buttons button {
   flex: 1;
   height: 90px;
@@ -97,8 +97,10 @@ h2 {
   border: none;
   border-radius: 20px;
   color: #fff;
-  background: #2ecc71;
 }
+
+.in { background: #2ecc71; }
+.out { background: #3498db; }
 
 #result {
   text-align: center;
@@ -145,10 +147,11 @@ h2 {
 
 </div>
 
-<!-- 1ボタン打刻 -->
+<!-- 共通 出退勤ボタン -->
 <div class="footer">
   <div class="buttons">
-    <button onclick="oneButtonDakoku()">打　刻（出勤／退勤 自動判定）</button>
+    <button class="in" onclick="dakoku('出勤')">出 勤</button>
+    <button class="out" onclick="dakoku('退勤')">退 勤</button>
   </div>
   <div id="result"></div>
 </div>
@@ -157,7 +160,7 @@ h2 {
 let lock = false;
 let qrEmpId = "";
 
-/* テンキー */
+/* テンキー入力 */
 function addNum(n) {
   document.getElementById("empInput").value += n;
 }
@@ -165,7 +168,7 @@ function clearNum() {
   document.getElementById("empInput").value = "";
 }
 
-/* QR */
+/* QR読み取り */
 const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
@@ -177,8 +180,8 @@ qr.start(
   }
 );
 
-/* 1ボタン出退勤 自動判定 */
-function oneButtonDakoku() {
+/* 出勤／退勤共通処理 */
+function dakoku(type) {
   if (lock) return;
 
   const inputEmp = document.getElementById("empInput").value.trim();
@@ -189,36 +192,10 @@ function oneButtonDakoku() {
     return;
   }
 
-  /* 前回状態を取得（localStorage使用） */
-  const last = localStorage.getItem("status_" + empId);
-
-  /* 自動判定 */
-  let type = "";
-
-  if (last === "出勤") {
-    type = "退勤";
-  } else {
-    type = "出勤";   // 初回または退勤後
-  }
-
-  /* 状態保存 */
-  localStorage.setItem("status_" + empId, type);
-
   lock = true;
   const now = new Date().toLocaleString();
 
   document.getElementById("result").innerHTML =
     `【${type} 完了】 【職員番号:${empId}】 【${now}】`;
 
-  setTimeout(() => {
-    document.getElementById("empInput").value = "";
-    document.getElementById("qrEmp").innerText = "未読取";
-    document.getElementById("result").innerHTML = "";
-    qrEmpId = "";
-    lock = false;
-  }, 2000);
-}
-</script>
-
-</body>
-</html>
+  setTimeou
