@@ -23,7 +23,7 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: calc(100% - 100px);
+  height: calc(100% - 150px);
 }
 
 .section {
@@ -160,7 +160,7 @@ h2 {
 let lock = false;
 let qrEmpId = "";
 
-/* テンキー入力 */
+/* テンキー */
 function addNum(n) {
   document.getElementById("empInput").value += n;
 }
@@ -168,7 +168,7 @@ function clearNum() {
   document.getElementById("empInput").value = "";
 }
 
-/* QR読み取り */
+/* QR */
 const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
@@ -180,7 +180,7 @@ qr.start(
   }
 );
 
-/* 出勤／退勤共通処理 */
+/* 共通打刻 */
 function dakoku(type) {
   if (lock) return;
 
@@ -195,7 +195,21 @@ function dakoku(type) {
   lock = true;
   const now = new Date().toLocaleString();
 
+/*  document.getElementById("result").innerHTML =
+    `【${type} 完了】<br>職員番号：${empId}<br>${now}`; */
+
   document.getElementById("result").innerHTML =
     `【${type} 完了】 【職員番号:${empId}】 【${now}】`;
 
-  setTimeou
+  setTimeout(() => {
+    document.getElementById("empInput").value = "";
+    document.getElementById("qrEmp").innerText = "未読取";
+    document.getElementById("result").innerHTML = "";
+    qrEmpId = "";
+    lock = false;
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
