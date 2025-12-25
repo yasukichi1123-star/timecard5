@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>福井総合病院　打刻</title>
 
-<!-- iPad 全画面 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,7 +22,7 @@ html, body {
 
 .wrapper {
   display: flex;
-  height: calc(100% - 150px);
+  height: calc(100% - 120px);
 }
 
 .section {
@@ -78,9 +77,9 @@ h2 {
   margin-top: 10px;
 }
 
-/* 共通ボタン */
+/* フッター */
 .footer {
-  height: 100px;
+  height: 120px;
   padding: 15px;
   box-sizing: border-box;
 }
@@ -90,6 +89,7 @@ h2 {
   gap: 20px;
 }
 
+/* 1ボタン共通 */
 .buttons button {
   flex: 1;
   height: 90px;
@@ -97,10 +97,8 @@ h2 {
   border: none;
   border-radius: 20px;
   color: #fff;
+  background: #2ecc71;
 }
-
-.in { background: #2ecc71; }
-.out { background: #3498db; }
 
 #result {
   text-align: center;
@@ -147,11 +145,10 @@ h2 {
 
 </div>
 
-<!-- 共通 出退勤ボタン -->
+<!-- 1ボタン打刻 -->
 <div class="footer">
   <div class="buttons">
-    <button class="in" onclick="dakoku('出勤')">出 勤</button>
-    <button class="out" onclick="dakoku('退勤')">退 勤</button>
+    <button onclick="oneButtonDakoku()">打　刻（出勤／退勤 自動判定）</button>
   </div>
   <div id="result"></div>
 </div>
@@ -180,8 +177,8 @@ qr.start(
   }
 );
 
-/* 共通打刻 */
-function dakoku(type) {
+/* 1ボタン出退勤 自動判定 */
+function oneButtonDakoku() {
   if (lock) return;
 
   const inputEmp = document.getElementById("empInput").value.trim();
@@ -192,11 +189,23 @@ function dakoku(type) {
     return;
   }
 
+  /* 前回状態を取得（localStorage使用） */
+  const last = localStorage.getItem("status_" + empId);
+
+  /* 自動判定 */
+  let type = "";
+
+  if (last === "出勤") {
+    type = "退勤";
+  } else {
+    type = "出勤";   // 初回または退勤後
+  }
+
+  /* 状態保存 */
+  localStorage.setItem("status_" + empId, type);
+
   lock = true;
   const now = new Date().toLocaleString();
-
-/*  document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>職員番号：${empId}<br>${now}`; */
 
   document.getElementById("result").innerHTML =
     `【${type} 完了】 【職員番号:${empId}】 【${now}】`;
@@ -213,11 +222,3 @@ function dakoku(type) {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
