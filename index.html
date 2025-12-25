@@ -21,6 +21,20 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* 画面上部固定の通知バー */
+.top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 128, 0, 0.9); /* 緑系：完了感 */
+  color: #fff;
+  font-size: 22px;
+  padding: 12px 8px;
+  z-index: 9999;
+}
+  
 /* 上部メイン領域の高さ */
 .wrapper {
   display: flex;
@@ -199,12 +213,11 @@ function dakoku(type) {
   lock = true;
   const now = new Date().toLocaleString();
 
-/*  document.getElementById("result").innerHTML =
-    `【${type} 完了】<br>職員番号：${empId}<br>${now}`; */
+ const result = document.getElementById("result");
 
-  document.getElementById("result").innerHTML =
-    `【${type} 完了】 【職員番号:${empId}】 【${now}】`;
-
+result.className = "top-banner";
+result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
+  
   setTimeout(() => {
     document.getElementById("empInput").value = "";
     document.getElementById("qrEmp").innerText = "未読取";
@@ -217,6 +230,7 @@ function dakoku(type) {
 
 </body>
 </html>
+
 
 
 
