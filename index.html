@@ -200,7 +200,7 @@ const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
  /* { facingMode: "user" },*/
-  { fps: 10, qrbox: 250 },
+  { fps: 10, qrbox: 420 },
   text => {
     if (lock) return;
     qrEmpId = text;
@@ -253,6 +253,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
