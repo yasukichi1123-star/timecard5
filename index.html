@@ -213,7 +213,7 @@ qr.start(
     if (lock) return;
     qrEmpId = text;
     document.getElementById("qrEmp").innerText = text;
-    /*qr.stop();*/ /* QR読み取ったら即カメラ停止 */
+    qr.stop(); /* QR読み取ったら即カメラ停止 */
   }
 );
 
@@ -262,6 +262,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
