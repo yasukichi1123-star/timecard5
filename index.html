@@ -237,12 +237,12 @@ result.className = "";
   result.classList.add("top-banner", "top-out");
 }*/
 
-  setTimeout(() => {
+/*  setTimeout(() => {
   document.getElementById("empInput").value = "";
   document.getElementById("qrEmp").innerText = "未読取";
-
-  const result = document.getElementById("result");
-  result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
+*/
+const result = document.getElementById("result");
+result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
 result.className = "";
 result.classList.add(type === "出勤" ? "top-in" : "top-out");
 
@@ -257,6 +257,7 @@ setTimeout(() => {
 
 </body>
 </html>
+
 
 
 
