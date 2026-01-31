@@ -21,20 +21,6 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* 画面上部固定の通知バー */
-/*.top-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  font-size: 40px;
-  padding: 16px 12px;
-  z-index: 9999;
-  font-weight: 600;
-}*/
-
 /* 出勤＝緑 */
 .top-in {
   background: rgba(30, 160, 70, 0.95);
@@ -251,8 +237,6 @@ if (type === "出勤") {
   result.classList.add("top-banner", "top-out");
 }
 
-result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
-  
   setTimeout(() => {
   document.getElementById("empInput").value = "";
   document.getElementById("qrEmp").innerText = "未読取";
@@ -260,6 +244,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
   const result = document.getElementById("result");
   result.innerHTML = "";
   result.className = "";   // ← 色・帯も完全クリア
+  result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
 
   qrEmpId = "";
   lock = false;
@@ -269,6 +254,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
