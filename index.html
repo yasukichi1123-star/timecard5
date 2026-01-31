@@ -22,7 +22,7 @@ html, body {
 }
 
 /* 画面上部固定の通知バー */
-.top-banner {
+/*.top-banner {
   position: fixed;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ html, body {
   padding: 16px 12px;
   z-index: 9999;
   font-weight: 600;
-}
+}*/
 
 /* 出勤＝緑 */
 .top-in {
@@ -134,8 +134,12 @@ h2 {
 
 #result {
   text-align: center;
-  font-size: 26px;
-  margin-top: 10px;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  color: #fff;
 }
 </style>
 </head>
@@ -187,7 +191,6 @@ h2 {
     <button class="in" onclick="dakoku('出勤')">出 勤</button>
     <button class="out" onclick="dakoku('退勤')">退 勤</button>
   </div>
-  <!-- <div id="result"></div> -->
 </div>
 
 <script>
@@ -266,6 +269,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
