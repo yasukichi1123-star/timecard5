@@ -221,7 +221,12 @@ function dakoku(type) {
   }
 
   lock = true;
-  const now = new Date().toLocaleString();
+  /*const now = new Date().toLocaleString();*/
+  const now = new Date();
+  const time = now.toLocaleTimeString("ja-JP", {
+  hour: "2-digit",
+  minute: "2-digit"
+});
 
  const result = document.getElementById("result");
 
@@ -235,7 +240,7 @@ if (type === "出勤") {
   result.classList.add("top-banner", "top-out");
 }
 
-result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
+result.innerHTML = `【${type}】　【職員番号:${empId}】　【${time}】`;
   
   setTimeout(() => {
   document.getElementById("empInput").value = "";
@@ -253,6 +258,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
