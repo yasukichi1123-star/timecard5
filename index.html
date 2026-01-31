@@ -179,11 +179,15 @@ h2 {
 
 <!-- 共通 出退勤ボタン -->
 <div class="footer">
+  
+  <!-- 完了メッセージ（ボタンの上） -->
+  <div id="result"></div>
+  
   <div class="buttons">
     <button class="in" onclick="dakoku('出勤')">出 勤</button>
     <button class="out" onclick="dakoku('退勤')">退 勤</button>
   </div>
-  <div id="result"></div>
+  <!-- <div id="result"></div> -->
 </div>
 
 <script>
@@ -262,6 +266,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
