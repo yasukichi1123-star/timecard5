@@ -231,22 +231,25 @@ function dakoku(type) {
 result.className = "";
 
 // 出勤 → 緑、退勤 → 青
-if (type === "出勤") {
+/*if (type === "出勤") {
   result.classList.add("top-banner", "top-in");
 } else {
   result.classList.add("top-banner", "top-out");
-}
+}*/
 
   setTimeout(() => {
   document.getElementById("empInput").value = "";
   document.getElementById("qrEmp").innerText = "未読取";
 
   const result = document.getElementById("result");
-  result.innerHTML = "";
-  result.className = "";   // ← 色・帯も完全クリア
   result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${now}】`;
+result.className = "";
+result.classList.add(type === "出勤" ? "top-in" : "top-out");
 
-  qrEmpId = "";
+// 1.5秒後に消す
+setTimeout(() => {
+  result.innerHTML = "";
+  result.className = "";
   lock = false;
 }, 1500);
 }
@@ -254,6 +257,7 @@ if (type === "出勤") {
 
 </body>
 </html>
+
 
 
 
