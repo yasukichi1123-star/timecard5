@@ -240,7 +240,7 @@ if (type === "出勤") {
   result.classList.add("top-banner", "top-out");
 }
 
-result.innerHTML = `【${type}】　【職員番号:${empId}】　【${time}】`;
+result.innerHTML = `【${type}】　職員番号:${empId}　${time}`;
   
   setTimeout(() => {
   document.getElementById("empInput").value = "";
@@ -258,6 +258,7 @@ result.innerHTML = `【${type}】　【職員番号:${empId}】　【${time}】`
 
 </body>
 </html>
+
 
 
 
