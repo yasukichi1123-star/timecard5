@@ -93,9 +93,11 @@ h2 {
 
 /* 右：QR */
 #reader {
-  width: 100%;
+  /*width: 100%;
   max-width: 420px;
-  margin: auto;
+  margin: auto;*/
+  border: 4px solid #2ecc71;
+  border-radius: 12px;  
 }
 
 .qr-emp {
@@ -200,12 +202,18 @@ function clearNum() {
 const qr = new Html5Qrcode("reader");
 qr.start(
   { facingMode: "environment" },
- /* { facingMode: "user" },*/
-  { fps: 10, qrbox: 300 },
+/*  { fps: 10, qrbox: 300 },*/
+  {
+    fps: 20,          // ← 倍にする
+    qrbox: 220,       // ← 小さくする
+    aspectRatio: 1.0,
+    disableFlip: true // ← 無駄な処理を省く
+  },
   text => {
     if (lock) return;
     qrEmpId = text;
     document.getElementById("qrEmp").innerText = text;
+    qr.stop(); /* QR読み取ったら即カメラ停止 */
   }
 );
 
@@ -254,6 +262,7 @@ result.innerHTML = `【${type} 完了】　【職員番号:${empId}】　【${no
 
 </body>
 </html>
+
 
 
 
