@@ -226,15 +226,15 @@ function dakoku(type) {
 
   const method = inputEmp ? "テンキー" : "QR";
 
+  const params = new URLSearchParams();
+  params.append("empId", empId);
+  params.append("type", type);
+  params.append("method", method);
+
   fetch(GAS_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      empId: empId,
-      type: type,
-      method: method
-    })
-  });
+    body: params
+});
 
   /* 表示処理（既存のままでOK） */
   const now = new Date();
@@ -268,6 +268,7 @@ function dakoku(type) {
 
 </body>
 </html>
+
 
 
 
