@@ -140,21 +140,31 @@ display: none;
 }
   
 .dakoku-message {
-  width: 100%;
-  box-sizing: border-box;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
 
-  font-size: 32px;          /* 文字大きめ */
+  width: calc(100% - 40px);
+  max-width: 800px;
+
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
 
-  padding: 14px 0;          /* 帯の高さ */
-  margin-bottom: 20px;      /* ボタンとの間隔 */
+  padding: 16px 0;
+  border-radius: 10px;
 
-  background-color: #e8f5e9; /* 仮：出勤色 */
-  color: #1b5e20;
-
-  border-radius: 8px;
+  z-index: 1000;
 }
+
+/* 空のときは非表示 */
+.dakoku-message:empty {
+  display: none;
+}
+
+
 
 </style>
 </head>
@@ -258,21 +268,27 @@ function dakoku(type) {
   document.getElementById("dakokuMessage").innerText =
     `【${type}】 ${empId}  ${hh}:${mm}`;
 
+  // 打刻完了表示
   const msg = document.getElementById("dakokuMessage");
-  msg.innerText = `【${type}】 ${empId}  ${hh}:${mm}`;
+  msg.innerText = `【${type}】   ${empId}    ${hh}:${mm}`;
   
   if (type === "出勤") {
   msg.style.backgroundColor = "#e8f5e9";
-  msg.style.color = "#1b5e20";
+  msg.style.color = "#000000";
 } else {
   msg.style.backgroundColor = "#e3f2fd";
-  msg.style.color = "#0d47a1";
+  msg.style.color = "#000000";
 }
   
-  setTimeout(() => {
+  // ===== 数秒後にすべてクリア =====
+setTimeout(() => {
+  // 入力欄クリア
+  document.getElementById("empInput").value = "";
+  qrEmpId = "";
+
+  // 帯と文字をクリア
   msg.innerText = "";
-}, 2000);
-}
+}, 3000); // ← 表示時間（ミリ秒）
 
 </script>
 
@@ -292,6 +308,7 @@ function dakoku(type) {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
