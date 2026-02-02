@@ -40,7 +40,7 @@ html, body {
   background: rgba(30, 160, 70, 0.95);
 }
 
-/* 退勤＝青 */fe
+/* 退勤＝青 */
 .top-out {
   background: rgba(40, 120, 220, 0.95);
 }
@@ -208,16 +208,31 @@ qr.start(
   }
 );
 
-/* 共通打刻 */
-https://script.google.com/macros/s/AKfycbx_7_-BJEgm_WqvmVdxr44lrRFZYUjEI6Sp8FGP9GPwVZuFqF0iLClPmXAQAkB4WSjbrg/exec
+  /* 共通打刻（★これが最重要） */
+function dakoku(type) {
+  const empId =
+    qrEmpId || document.getElementById("empInput").value;
+
+  if (!empId) {
+    alert("職員番号を入力してください");
+    return;
+  }
+
+  document.getElementById("empIdField").value = empId;
+  document.getElementById("typeField").value = type;
+  document.getElementById("methodField").value =
+    qrEmpId ? "QR" : "テンキー";
+
+  document.getElementById("dakokuForm").submit();
+
+  document.getElementById("result").innerText =
+    type + " 打刻しました";
+
+  lock = true;
+  setTimeout(() => (lock = false), 1500);
+}
 
 </script>
-
-
-   <!-- 画面のUI（職員番号、ボタンなど） -->
-  <input type="text" id="empId">
-  <button onclick="dakoku('出勤')">出勤</button>
-  <button onclick="dakoku('退勤')">退勤</button>
 
   <!-- ★ form（先にこれが必要） -->
   <form
@@ -235,6 +250,7 @@ https://script.google.com/macros/s/AKfycbx_7_-BJEgm_WqvmVdxr44lrRFZYUjEI6Sp8FGP9
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
