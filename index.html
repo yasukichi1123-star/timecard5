@@ -134,6 +134,13 @@ h2 {
   font-size: 26px;
   margin-top: 10px;
 }
+
+.dakoku-message {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #222;
+}
 </style>
 </head>
 
@@ -176,6 +183,8 @@ h2 {
 
 <!-- 共通 出退勤ボタン -->
 <div class="footer">
+  <div id="dakokuMessage" class="dakoku-message"></div>
+  
   <div class="buttons">
     <button class="in" onclick="dakoku('出勤')">出 勤</button>
     <button class="out" onclick="dakoku('退勤')">退 勤</button>
@@ -217,19 +226,30 @@ function dakoku(type) {
     alert("職員番号を入力してください");
     return;
   }
-
+  // form にセット
   document.getElementById("empIdField").value = empId;
   document.getElementById("typeField").value = type;
   document.getElementById("methodField").value =
     qrEmpId ? "QR" : "テンキー";
 
+  // 送信
   document.getElementById("dakokuForm").submit();
 
-  document.getElementById("result").innerText =
-    type + " 打刻しました";
+  // 打刻完了メッセージ表示
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
 
-  lock = true;
-  setTimeout(() => (lock = false), 1500);
+  document.getElementById("dakokuMessage").innerText =
+    `【${type}】 ${empId}  ${hh}:${mm}`;
+
+  const msg = document.getElementById("dakokuMessage");
+  msg.innerText = `【${type}】 ${empId}  ${hh}:${mm}`;
+  msg.style.color = type === "出勤" ? "#2e7d32" : "#1565c0";
+  
+  setTimeout(() => {
+  document.getElementById("dakokuMessage").style.opacity = "0.5";
+}, 5000);
 }
 
 </script>
@@ -250,6 +270,7 @@ function dakoku(type) {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
