@@ -209,6 +209,8 @@ qr.start(
 );
 
 /* 共通打刻 */
+/* https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec */
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec"; /* 打刻ログの保存先URL */
 function dakoku(type) {
   if (lock) return;
 
@@ -221,43 +223,52 @@ function dakoku(type) {
   }
 
   lock = true;
-  /*const now = new Date().toLocaleString();*/
+
+  const method = inputEmp ? "テンキー" : "QR";
+
+  fetch(GAS_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      empId: empId,
+      type: type,
+      method: method
+    })
+  });
+
+  /* 表示処理（既存のままでOK） */
   const now = new Date();
   const time = now.toLocaleTimeString("ja-JP", {
-  hour: "2-digit",
-  minute: "2-digit"
-});
-
- const result = document.getElementById("result");
-
-// まずクラスをリセット
-result.className = "";
-
-// 出勤 → 緑、退勤 → 青
-if (type === "出勤") {
-  result.classList.add("top-banner", "top-in");
-} else {
-  result.classList.add("top-banner", "top-out");
-}
-
-result.innerHTML = `【${type}】　職員番号:${empId}　${time}`;
-  
-  setTimeout(() => {
-  document.getElementById("empInput").value = "";
-  document.getElementById("qrEmp").innerText = "未読取";
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 
   const result = document.getElementById("result");
-  result.innerHTML = "";
-  result.className = "";   // ← 色・帯も完全クリア
+  result.className = "";
 
-  qrEmpId = "";
-  lock = false;
-}, 1500);
+  if (type === "出勤") {
+    result.classList.add("top-banner", "top-in");
+  } else {
+    result.classList.add("top-banner", "top-out");
+  }
+
+  result.innerHTML = `【${type}】 職員番号:${empId} ${time}`;
+
+  setTimeout(() => {
+    document.getElementById("empInput").value = "";
+    document.getElementById("qrEmp").innerText = "未読取";
+    result.innerHTML = "";
+    result.className = "";
+    qrEmpId = "";
+    lock = false;
+  }, 1500);
 }
+
 </script>
 
 </body>
 </html>
+
 
 
 
