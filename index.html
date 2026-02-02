@@ -282,13 +282,11 @@ function dakoku(type) {
   
   // ===== 数秒後にすべてクリア =====
 setTimeout(() => {
-  // 入力欄クリア
   document.getElementById("empInput").value = "";
   qrEmpId = "";
-
-  // 帯と文字をクリア
   msg.innerText = "";
-}, 3000); // ← 表示時間（ミリ秒）
+}, 3000);
+  
 }
 
 </script>
@@ -309,6 +307,7 @@ setTimeout(() => {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
