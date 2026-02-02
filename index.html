@@ -135,12 +135,27 @@ h2 {
   margin-top: 10px;
 }
 
-.dakoku-message {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #222;
+.dakoku-message:empty {
+display: none;
 }
+  
+.dakoku-message {
+  width: 100%;
+  box-sizing: border-box;
+
+  font-size: 32px;          /* 文字大きめ */
+  font-weight: bold;
+  text-align: center;
+
+  padding: 14px 0;          /* 帯の高さ */
+  margin-bottom: 20px;      /* ボタンとの間隔 */
+
+  background-color: #e8f5e9; /* 仮：出勤色 */
+  color: #1b5e20;
+
+  border-radius: 8px;
+}
+
 </style>
 </head>
 
@@ -245,11 +260,18 @@ function dakoku(type) {
 
   const msg = document.getElementById("dakokuMessage");
   msg.innerText = `【${type}】 ${empId}  ${hh}:${mm}`;
-  msg.style.color = type === "出勤" ? "#2e7d32" : "#1565c0";
+  
+  if (type === "出勤") {
+  msg.style.backgroundColor = "#e8f5e9";
+  msg.style.color = "#1b5e20";
+} else {
+  msg.style.backgroundColor = "#e3f2fd";
+  msg.style.color = "#0d47a1";
+}
   
   setTimeout(() => {
-  document.getElementById("dakokuMessage").style.opacity = "0.5";
-}, 5000);
+  msg.innerText = "";
+}, 2000);
 }
 
 </script>
@@ -270,6 +292,7 @@ function dakoku(type) {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
