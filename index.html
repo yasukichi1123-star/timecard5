@@ -40,7 +40,7 @@ html, body {
   background: rgba(30, 160, 70, 0.95);
 }
 
-/* 退勤＝青 */
+/* 退勤＝青 */fe
 .top-out {
   background: rgba(40, 120, 220, 0.95);
 }
@@ -266,8 +266,29 @@ function dakoku(type) {
 
 </script>
 
+
+   <!-- 画面のUI（職員番号、ボタンなど） -->
+  <input type="text" id="empId">
+  <button onclick="dakoku('出勤')">出勤</button>
+  <button onclick="dakoku('退勤')">退勤</button>
+
+  <!-- ★ form（先にこれが必要） -->
+  <form
+    id="dakokuForm"
+    method="POST"
+    action="https://script.google.com/macros/s/AKfycbz1DuBLw8pnJvYHN-kP3u0AwlJJTLYdjwLjgSzlyguqu39Uf4deE_FH2BorLXg6ASRcGQ/exec"
+    target="dummyFrame"
+  >
+    <input type="hidden" name="empId" id="empIdField">
+    <input type="hidden" name="type" id="typeField">
+    <input type="hidden" name="method" id="methodField">
+  </form>
+
+  <!-- ★ iframe（bodyの一番下が安全） -->
+  <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
