@@ -184,6 +184,9 @@ h2 {
 </div>
 
 <script>
+/* https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec */
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec"; /* 打刻ログの保存先URL */
+  
 let lock = false;
 let qrEmpId = "";
 
@@ -209,8 +212,6 @@ qr.start(
 );
 
 /* 共通打刻 */
-/* https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec */
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxLiwlYpE9GlZKDm12dtR5hLp-Iv_bNTVF0-mZ8LO2ek3Q6NSZ3y_ACnO5LZJ0qNSf-oQ/exec"; /* 打刻ログの保存先URL */
 function dakoku(type) {
   if (lock) return;
 
@@ -268,6 +269,7 @@ function dakoku(type) {
 
 </body>
 </html>
+
 
 
 
