@@ -21,30 +21,6 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* 画面上部固定の通知バー */
-.top-banner {
-  position: fixed;
-  bottom: 110px;   /* ← フッターの高さと同じ */
-  left: 0;
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  font-size: 40px;
-  padding: 16px 12px;
-  z-index: 9999;
-  font-weight: 600;
-}
-
-/* 出勤＝緑 */
-.top-in {
-  background: rgba(30, 160, 70, 0.95);
-}
-
-/* 退勤＝青 */
-.top-out {
-  background: rgba(40, 120, 220, 0.95);
-}
-  
 /* 上部メイン領域の高さ */
 .wrapper {
   display: flex;
@@ -274,7 +250,7 @@ function dakoku(type) {
   msg.innerText = `【${type}】 ${empId}  ${hh}:${mm}`;
 
   if (type === "出勤") {
-    msg.style.backgroundColor = "#e8f5e9";
+    msg.style.backgroundColor = "#2ecc71";
   } else {
     msg.style.backgroundColor = "#e3f2fd";
   }
@@ -310,6 +286,7 @@ function dakoku(type) {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
