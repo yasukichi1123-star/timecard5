@@ -184,8 +184,6 @@ h2 {
 </div>
 
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz9SJkWHAF27K8jG-0UsPbUrMuUuUppzebKCsaGHXcYrrN711CFHiRWLiNdq8bLIw0fsg/exec";
-  
 let lock = false;
 let qrEmpId = "";
 
@@ -211,58 +209,7 @@ qr.start(
 );
 
 /* 共通打刻 */
-function dakoku(type) {
-  if (lock) return;
-
-  const inputEmp = document.getElementById("empInput").value.trim();
-  const empId = inputEmp || qrEmpId;
-
-  if (!empId) {
-    alert("職員番号を入力またはQRを読み取ってください");
-    return;
-  }
-
-  lock = true;
-
-  const method = inputEmp ? "テンキー" : "QR";
-
-  const params = new URLSearchParams();
-  params.append("empId", empId);
-  params.append("type", type);
-  params.append("method", method);
-
-  fetch(GAS_URL, {
-    method: "POST",
-    body: params
-});
-
-  /* 表示処理（既存のままでOK） */
-  const now = new Date();
-  const time = now.toLocaleTimeString("ja-JP", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-
-  const result = document.getElementById("result");
-  result.className = "";
-
-  if (type === "出勤") {
-    result.classList.add("top-banner", "top-in");
-  } else {
-    result.classList.add("top-banner", "top-out");
-  }
-
-  result.innerHTML = `【${type}】 職員番号:${empId} ${time}`;
-
-  setTimeout(() => {
-    document.getElementById("empInput").value = "";
-    document.getElementById("qrEmp").innerText = "未読取";
-    result.innerHTML = "";
-    result.className = "";
-    qrEmpId = "";
-    lock = false;
-  }, 1500);
-}
+https://script.google.com/macros/s/AKfycbx_7_-BJEgm_WqvmVdxr44lrRFZYUjEI6Sp8FGP9GPwVZuFqF0iLClPmXAQAkB4WSjbrg/exec
 
 </script>
 
@@ -276,7 +223,7 @@ function dakoku(type) {
   <form
     id="dakokuForm"
     method="POST"
-    action="https://script.google.com/macros/s/AKfycbz1DuBLw8pnJvYHN-kP3u0AwlJJTLYdjwLjgSzlyguqu39Uf4deE_FH2BorLXg6ASRcGQ/exec"
+    action="https://script.google.com/macros/s/AKfycbx_7_-BJEgm_WqvmVdxr44lrRFZYUjEI6Sp8FGP9GPwVZuFqF0iLClPmXAQAkB4WSjbrg/exec"
     target="dummyFrame"
   >
     <input type="hidden" name="empId" id="empIdField">
@@ -288,6 +235,7 @@ function dakoku(type) {
   <iframe name="dummyFrame" style="display:none;"></iframe>
 </body>
 </html>
+
 
 
 
